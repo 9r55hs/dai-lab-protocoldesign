@@ -21,11 +21,15 @@ MUL <x> <y>
 ```
 
 ### Error
-The client requests to execute an operation. `x` and `y`
+If the client requests to execute an invalid operation the server sends an error response message:
 ```
 OP_NOT_FOUND <OP>
 ```
-Error response message after an ADD message, if the operation does not exist.
+
+If the client request an `OP` with invalid values, the client sends an error response message:
+```
+INVALID_VALUES <x> <y>
+```
 Both messages are UTF-8 encoded with “\n” as end-of-line character.
 If the operation exists, the server sends the result of the operation as binary byte stream.
 
