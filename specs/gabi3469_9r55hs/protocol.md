@@ -3,13 +3,14 @@
 The aim of this protocol is to implement basic mathematic operations (addition and multiplication) on a client-server model.
 
 ## Section 2 transport layer protocol
-`protocol name` uses TCP. The client establishes the connection. It has to know the IP address
-of the server. The server listens on TCP port `port`.
+`MOP` (Math Operation Protocol) uses TCP. The client establishes the connection. It has to know the IP address
+of the server. The server listens on TCP port `42012`.
 The server closes the connection when the requested operation result or the error message has
 been sent.
 
 ## Section 3 messages
-There are three types of messages:
+There are four types of messages:
+
 ### Addition
 ```
 ADD <x> <y>
@@ -28,6 +29,12 @@ Error response message after an ADD message, if the operation does not exist.
 Both messages are UTF-8 encoded with “\n” as end-of-line character.
 If the operation exists, the server sends the result of the operation as binary byte stream.
 
+### Result
+```
+RES <result>
+```
+The result of the operation is sent as a binary byte stream.
+
 ## Example dialog
 ```mermaid
 sequenceDiagram
@@ -43,4 +50,16 @@ sequenceDiagram
   client -> server:EOF notification
   note left of server: open close()
   note right of client: open close()
+```
+
+### Example Error Dialog
+```mermaid
+sequenceDiagram
+  Note over client,server: TCP connection initialisation
+  client <<->> server:TCP connection establishment
+  client ->> server:DIV <x> <y>
+  server -->> client:OP_NOT_FOUND DIV
+  client -> server:EOF notification
+  note right of server: open close()
+  note left of client: open close()
 ```
