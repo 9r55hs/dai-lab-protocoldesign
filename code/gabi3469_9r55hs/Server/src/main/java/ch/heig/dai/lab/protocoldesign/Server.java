@@ -26,15 +26,28 @@ public class Server {
 
                     String line;
                     double val1,val2;
-
+                    // Send a welcome message to the client with his ip
+                    out.write("HELLO " + socket.getInetAddress() + "\n");
+                    out.flush();
                     
                     while ((line = in.readLine()) != null) {
                         String[] Command = line.split(" ");
-                        if (Command.length > 3) {
-                            out.write("TOO_MANY_ARGUMENTS " + "\n");
+                        
+                        // Quit the server
+                        if (Command[0].equals("QUIT")) {
+                            out.write("Have a nice day !\n");
+                            out.flush();
+                            socket.close();
+                            return;
+                        }
+
+                        if (Command.length > 3 || Command.length < 3) {
+                            out.write("INVALID_CMD <" + line + ">\n");
+                            out.write("Usage: <OP> <val1> <val2>\n");
                             out.flush();
                             continue;
                         }
+                            
                         try {
                             val1 = Double.parseDouble(Command[1]);
                             val2 = Double.parseDouble(Command[2]);
