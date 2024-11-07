@@ -42,7 +42,7 @@ public class Server {
                         }
 
                         if (Command.length > 3 || Command.length < 3) {
-                            out.write("INVALID_CMD <" + line + ">\n");
+                            out.write("UNKNOWN <" + line + ">\n");
                             out.write("Usage: <OP> <val1> <val2>\n");
                             out.flush();
                             continue;
