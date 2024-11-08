@@ -17,6 +17,7 @@ public class Server {
         return "RES: " + value + "\n";
     }
     private void run() {
+        
         try (ServerSocket serverSocket = new ServerSocket(SERVER_PORT)) {
             while (true) {
 
@@ -26,8 +27,11 @@ public class Server {
 
                     String line;
                     double val1,val2;
-                    // Send a welcome message to the client with his ip
+
+                    // Send a welcome message to the client with his ip and the available operations
                     out.write("HELLO " + socket.getInetAddress() + "\n");
+                    out.write("Operations: ADD, SUB, MUL, DIV\n");
+                    out.write("QUIT to exit\n");
                     out.flush();
                     
                     while ((line = in.readLine()) != null) {
